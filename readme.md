@@ -1,0 +1,13 @@
+# Skywriting
+
+## A flexible AI for From the Depths built on formal language theory
+
+As yet very incomplete. Currently pre-proof-of-concept stage, and I'm mostly putting this up so I have somewhere to post progress.
+
+Partition the configuration space of your sensors. Assign each region a token. Assign another token to each action that you can take. This is your alphabet. You can now build a combination planner/controller by constructing an LL-1 context-free language on your alphabet, alternating between parsing percept tokens and outputting the necessary action tokens to make the sentence a member of the language.
+
+This is an extreme simplification. Please see [Dantam 2013](http://www.golems.org/papers/dantam2013motion.pdf) on motion grammars for the technical details.
+
+Because I don't have a library for the initial tokenization step, I'm basically using this as a way to structure my code and make the system more configurable. The way this is going to work is you can construct behaviors out of simpler behaviors and out of action primitives by stringing them together in a grammar; an "attack run" behavior might be built out of "turn to face enemy", "level flight", "dive", "random turn", "evasive flight", and "evasive flight" would then be built out of "left turn", "right turn", "level flight". This is pretty nice because it allows us to handle both [controller mode-switching](https://en.wikipedia.org/wiki/Gain_scheduling) and [planning](https://en.wikipedia.org/wiki/Automated_planning_and_scheduling), usually vastly stratified parts of a robot's mathematical architecture, in the same data structure.
+
+I built this mostly because I've been meaning to do something with this concept for a long time. Losing the tokenization step actually significantly damages the math I'm building it off of; the original idea was that, by looking at the boundaries between regions of your sensor space, you could guarantee that your grammar would parse all possible movements through observation space, in turn guaranteeing that you wouldn't have a bug that'd cause you to miss a critical maneuver. This was further reinforced, in the original work, by the use of math and formal methods to *prove* that the code that was produced properly implemented the CFG, that the CFG was sufficiently universal, and that the CFG had certain desirable properties relating to stability and controllability. We don't have any of those, but the code is pretty darn cool, and it should turn out to be rather more readable and hackable than existing air AIs, as long as you can wrap your head around the basic idea of a context-free grammar or a pushdown automaton.
