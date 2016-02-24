@@ -279,7 +279,6 @@ function MakeSymbols ()
 	  -- 	 return {
 	  -- 		production = nil, 	-- terminal
 	  -- 		controls = {
-			   
 	  -- 		},
 	  -- 	 }
 	  -- end,
@@ -311,6 +310,7 @@ function ControlHigh(I, hightarget)
    -- pairs.
    for k,v in pairs(hightarget) do I:Log(joinlit({"hightarget: ", k, v.dim, v.setpoint, v.effort})) end
    return {
+	  -- TODO: actually do something here
 	  droll = 0,
 	  dpitch = 0,
 	  dyaw = 0,
@@ -322,6 +322,7 @@ end
 
 function ControlLow(I, lowtarget)
    for k,v in pairs(lowtarget) do I:Log(joinlit({"lowtarget: ", k, v})) end
+   -- TODO: actually do something here.
 end
 
 inited = false
